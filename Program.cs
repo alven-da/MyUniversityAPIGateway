@@ -6,6 +6,7 @@ using MyUniversityAPIGateway.Domain.Repository;
 using MyUniversityAPIGateway.Infrastructure.ExternalServices;
 
 var builder = WebApplication.CreateBuilder(args);
+var env = builder.Environment;
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -15,16 +16,25 @@ builder.Services.AddControllers();
 // Register HttpClient for external services
 builder.Services.AddHttpClient();
 
-// 1. Add Authentication Services
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
+.AddJwtBearer(options => {
+    
+    // Only enable this debugger on non-production setup
+    if (env.IsProduction() == false) {
+        options.Events = new JwtBearerEvents {
+            OnAuthenticationFailed = context =>
+            {
+                context.Response.Headers.Add("Token-Error", context.Exception.Message);
+                return Task.CompletedTask;
+            }
+        };   
+    }
+
+    options.TokenValidationParameters = new TokenValidationParameters {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
@@ -48,6 +58,7 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseAuthentication(); 
 app.UseAuthorization();
+
 app.MapControllers();
 app.UseHttpsRedirection();
 app.Run();

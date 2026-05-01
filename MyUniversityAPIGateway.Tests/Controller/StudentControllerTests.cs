@@ -27,8 +27,7 @@ namespace MyUniversityAPIGateway.Tests.Controller {
             // Create a fake claim
             var claims = new List<Claim> 
             { 
-                new(ClaimTypes.NameIdentifier, studentId),
-                new("student_id", studentId)
+                new("sub", studentId)
             };
             var identity = new ClaimsIdentity(claims, "TestAuthType");
             var claimsPrincipal = new ClaimsPrincipal(identity);
