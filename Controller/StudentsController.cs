@@ -13,7 +13,7 @@ namespace MyUniversityAPIGateway.Controller
         
         [HttpGet("profile")]
         public async Task<IActionResult> GetMyProfile() {
-            Console.WriteLine("Attempting to retrieve student profile...");
+            
             var studentId = User?.GetUserId();
 
             if (string.IsNullOrEmpty(studentId)) {
