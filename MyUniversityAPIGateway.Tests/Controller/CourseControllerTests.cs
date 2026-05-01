@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MyUniversityAPIGateway.Application;
+using MyUniversityAPIGateway.Application.Dto;
 using MyUniversityAPIGateway.Controller;
-using MyUniversityAPIGateway.Domain;
 using MyUniversityAPIGateway.Domain.Repository;
 using Xunit;
 
@@ -17,7 +17,7 @@ namespace MyUniversityAPIGateway.Tests.Controller {
             var mockCourseService = new Mock<CourseService>(mockCourseRepository.Object);
 
             mockCourseService.Setup(service => service.ListAllCourses())
-                .ReturnsAsync(new List<Course> {
+                .ReturnsAsync(new List<CourseDto> {
                     new() { Id = "1", Code = "COMIT01", Name = "Intro to Programming", Year = 2006, Semester = 1 },
                     new() { Id = "2", Code = "COMIT02", Name = "Programming Language I", Year = 2006, Semester = 2 }
                 });

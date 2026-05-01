@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using MyUniversityAPIGateway.Application;
 using MyUniversityAPIGateway.Data.Mock;
 using MyUniversityAPIGateway.Domain.Repository;
-using MyUniversityAPIGateway.Infrastructure.ExternalServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
@@ -32,7 +31,7 @@ builder.Services.AddAuthentication(options =>
         options.Events = new JwtBearerEvents {
             OnAuthenticationFailed = context =>
             {
-                context.Response.Headers.Add("Token-Error", context.Exception.Message);
+                context.Response.Headers.Append("Token-Error", context.Exception.Message);
                 return Task.CompletedTask;
             }
         };   

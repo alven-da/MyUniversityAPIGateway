@@ -1,10 +1,10 @@
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MyUniversityAPIGateway.Application;
+using MyUniversityAPIGateway.Application.Dto;
 using MyUniversityAPIGateway.Controller;
-using MyUniversityAPIGateway.Domain;
+using MyUniversityAPIGateway.Data.Util;
 using MyUniversityAPIGateway.Domain.Repository;
 
 namespace MyUniversityAPIGateway.Tests.Controller {
@@ -17,7 +17,7 @@ namespace MyUniversityAPIGateway.Tests.Controller {
             var mockStudentService = new Mock<StudentService>(mockStudentRepository.Object);
 
             var studentId = "123";
-            var expectedStudent = new Student { Id = studentId, Name = "John Doe" };
+            var expectedStudent = new StudentDto { Name = "John Doe", Email = "john.doe@example.com" };
 
             mockStudentService.Setup(service => service.GetStudentByID("123"))
                 .ReturnsAsync(expectedStudent);
@@ -25,19 +25,8 @@ namespace MyUniversityAPIGateway.Tests.Controller {
             var controller = new StudentsController(mockStudentService.Object);
 
             // Create a fake claim
-            var claims = new List<Claim> 
-            { 
-                new("sub", studentId)
-            };
-            var identity = new ClaimsIdentity(claims, "TestAuthType");
-            var claimsPrincipal = new ClaimsPrincipal(identity);
-
-            // TODO: to move to a helper method should be required by multiple test cases
-            // Mock the ControllerContext to include our fake User
-            controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = claimsPrincipal }
-            };
+            var claimsPrincipal = TestUtils.GetMockClaimsPrincipal(studentId);
+            controller.ControllerContext = TestUtils.CreateDefaultControllerContextWithClaims(claimsPrincipal);
 
             // Act
             var result = await controller.GetMyProfile();
