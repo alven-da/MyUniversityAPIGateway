@@ -1,14 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
+using MyUniversityAPIGateway.Application;
+using MyUniversityAPIGateway.Domain;
 
 namespace MyUniversityAPIGateway.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CoursesController : ControllerBase {
+    public class CoursesController(CourseService courseService) : ControllerBase
+    {
+        private readonly CourseService _courseService = courseService;
 
         [HttpGet]
-        public IActionResult Get() {
-            var courses = new List<string> { "Course 1", "Course 2", "Course 3" };
+        public async Task<IActionResult> ListAllCourses()
+        {
+            var courses = await _courseService.ListAllCourses();
             return Ok(courses);
         }
     }
