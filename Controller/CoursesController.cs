@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyUniversityAPIGateway.Application;
-using MyUniversityAPIGateway.Domain;
 
-namespace MyUniversityAPIGateway.Controller
-{
+namespace MyUniversityAPIGateway.Controller {
     [ApiController]
     [Route("api/[controller]")]
     public class CoursesController(CourseService courseService) : ControllerBase {

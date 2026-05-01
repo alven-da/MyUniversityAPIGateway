@@ -6,11 +6,11 @@ using MyUniversityAPIGateway.Extensions;
 
 namespace MyUniversityAPIGateway.Controller
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-        public class StudentsController(StudentService studentService) : ControllerBase {
+    public class StudentsController(StudentService studentService) : ControllerBase {
         
+        [Authorize]
         [HttpGet("profile")]
         public async Task<IActionResult> GetMyProfile() {
             
