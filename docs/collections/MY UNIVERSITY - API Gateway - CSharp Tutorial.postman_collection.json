@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "9fe1282f-7124-4808-a63c-e3328f552d6e",
+    "name": "MY UNIVERSITY - API Gateway - C# Tutorial",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30978163"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{CS_BASE_URL}}/api/health",
+          "host": [
+            "{{CS_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Students - Get My Profile",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{CS_JWT}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{CS_BASE_URL}}/api/students/profile",
+          "host": [
+            "{{CS_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "students",
+            "profile"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Courses - List All",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{CS_JWT}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{CS_BASE_URL}}/api/courses",
+          "host": [
+            "{{CS_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "courses"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
