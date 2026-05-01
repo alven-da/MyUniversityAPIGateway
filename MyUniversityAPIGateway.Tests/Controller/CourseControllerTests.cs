@@ -3,6 +3,7 @@ using Moq;
 using MyUniversityAPIGateway.Application;
 using MyUniversityAPIGateway.Controller;
 using MyUniversityAPIGateway.Domain;
+using MyUniversityAPIGateway.Domain.Repository;
 using Xunit;
 
 
@@ -11,7 +12,9 @@ namespace MyUniversityAPIGateway.Tests;
 public class CourseControllerTests {
     [Fact]
     public async Task ListAllCourses_ReturnsOkResultWithCourses() {
-        var mockCourseService = new Mock<CourseService>();
+        var mockCourseRepository = new Mock<ICourseRepository>();
+
+        var mockCourseService = new Mock<CourseService>(mockCourseRepository.Object);
 
         mockCourseService.Setup(service => service.ListAllCourses())
             .ReturnsAsync(new List<Course> {

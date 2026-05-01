@@ -6,9 +6,7 @@ using MyUniversityAPIGateway.Domain.Repository;
 public class CourseService(ICourseRepository courseRepository) {
     private readonly ICourseRepository _courseRepository = courseRepository;
 
-    public async Task<IEnumerable<Course>> ListAllCourses() {
-        var courses = await _courseRepository.GetCoursesAsync(null, null, null);
-        
-        return courses;
+    public virtual async Task<IEnumerable<Course>> ListAllCourses() {
+        return await _courseRepository.GetCoursesAsync(null, null, null);
     }
 }
