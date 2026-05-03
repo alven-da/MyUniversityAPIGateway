@@ -16,7 +16,8 @@ namespace MyUniversityAPIGateway.Application
         }
 
         public virtual async Task<StudentDto> GetStudentByID(string id) {
-            var student = await _studentRepository.GetProfileAsync(id);
+            var student = await _studentRepository.GetProfileAsync(id)
+                ?? throw new KeyNotFoundException($"Student with ID {id} not found.");
             return ToDto(student);
         }
     }

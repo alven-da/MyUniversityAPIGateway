@@ -14,8 +14,8 @@ namespace MyUniversityAPIGateway.Tests.Application {
 
             mockCourseRepository.Setup(repo => repo.GetCoursesAsync(null, null, null))
                 .ReturnsAsync(new List<Course> {
-                    new() { Id = "1", Code = "COMIT01", Name = "Intro to Programming", Year = 2006, Semester = 1 },
-                    new() { Id = "2", Code = "COMIT02", Name = "Programming Language I", Year = 2006, Semester = 2 }
+                    new() { Id = "1", Code = "BCS", Description = "Bachelor of Science in Computer Science" },
+                    new() { Id = "2", Code = "BHR", Description = "Bachelor of Science in Hospitality and Restaurant Management" }
                 });
 
             var courseService = new CourseService(mockCourseRepository.Object);
@@ -23,7 +23,7 @@ namespace MyUniversityAPIGateway.Tests.Application {
             // Act
             var courses = await courseService.ListAllCourses();
             
-            Assert.Equal("COMIT01", courses.First().Code);
+            Assert.Equal("BCS", courses.First().Code);
         }
     }
 }

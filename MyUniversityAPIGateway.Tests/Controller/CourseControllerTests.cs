@@ -17,10 +17,10 @@ namespace MyUniversityAPIGateway.Tests.Controller {
             var mockCourseService = new Mock<CourseService>(mockCourseRepository.Object);
 
             mockCourseService.Setup(service => service.ListAllCourses())
-                .ReturnsAsync(new List<CourseDto> {
-                    new() { Id = "1", Code = "COMIT01", Name = "Intro to Programming", Year = 2006, Semester = 1 },
-                    new() { Id = "2", Code = "COMIT02", Name = "Programming Language I", Year = 2006, Semester = 2 }
-                });
+                .ReturnsAsync([
+                    new() { Id = "1", Code = "BCS", Description = "Bachelor of Science in Computer Science" },
+                    new() { Id = "2", Code = "BHR", Description = "Bachelor of Science in Hospitality and Restaurant Management" }
+                ]);
 
             // Act
             var controller = new CoursesController(mockCourseService.Object);
