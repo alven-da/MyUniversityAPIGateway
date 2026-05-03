@@ -10,11 +10,9 @@ namespace MyUniversityAPIGateway.Application {
 
         private CourseDto ToDto(Course course) {
             return new CourseDto {
-                Name = course.Name,
+                Id = course.Id,
                 Description = course.Description,
                 Code = course.Code,
-                Semester = course.Semester,
-                Year = course.Year
             };
         }
 

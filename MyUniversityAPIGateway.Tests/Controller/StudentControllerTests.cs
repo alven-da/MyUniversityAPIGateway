@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MyUniversityAPIGateway.Application;
@@ -43,12 +42,8 @@ namespace MyUniversityAPIGateway.Tests.Controller {
             var mockStudentService = new Mock<StudentService>(mockStudentRepository.Object);
             var controller = new StudentsController(mockStudentService.Object);
 
-            // TODO: to move to a helper method should be required by multiple test cases
             // Context with NO claims
-            controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(new ClaimsIdentity()) }
-            };
+            controller.ControllerContext = TestUtils.CreateDefaultControllerContextWithClaims(null);
 
             // Act
             var result = await controller.GetMyProfile();

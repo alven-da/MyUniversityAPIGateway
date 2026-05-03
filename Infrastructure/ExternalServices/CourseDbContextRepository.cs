@@ -9,11 +9,8 @@ namespace Infrastructure.ExternalServices
         private readonly UniversityDbContext _dbContext = dbContext;
 
         // TODO: Implement with filters
-        public async Task<IEnumerable<Course>> GetCoursesAsync(int? year, string? course, int? semester)
-        {
-            
+        public async Task<IEnumerable<Course>> GetCoursesAsync(int? year, string? course, int? semester) {
             IQueryable<Course> query = _dbContext.Courses;
-
             return await query.ToListAsync();
         }
     }

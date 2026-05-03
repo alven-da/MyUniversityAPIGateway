@@ -15,10 +15,10 @@ namespace MyUniversityAPIGateway.Data.Util
             return new ClaimsPrincipal(identity);
         }
 
-        public static ControllerContext CreateDefaultControllerContextWithClaims(ClaimsPrincipal claimsPrincipal) {
+        public static ControllerContext CreateDefaultControllerContextWithClaims(ClaimsPrincipal? claimsPrincipal) {
             return new ControllerContext
             {
-                HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+                HttpContext = new DefaultHttpContext { User = claimsPrincipal ?? new ClaimsPrincipal(new ClaimsIdentity()) }
             };
         }
     }

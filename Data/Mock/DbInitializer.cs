@@ -5,36 +5,39 @@ namespace MyUniversityAPIGateway.Data.Mock {
         public static void Seed(UniversityDbContext context) {
             context.Database.EnsureCreated();
 
-            if (context.Students.Any()) {
-                return;
+            if (!context.Students.Any()) {
+                context.Students.Add(new Student { 
+                    Id = "0610191", 
+                    Name = "John Doe", 
+                    Email = "john@example.com" 
+                });
             }
 
-            context.Students.Add(new Student { 
-                Id = "0610191", 
-                Name = "John Doe", 
-                Email = "john@example.com" 
-            });
+            if (!context.Courses.Any()) {
+                context.Courses.Add(new Course { 
+                    Id = "1", 
+                    Code = "BCS",
+                    Description = "Bachelor of Science in Computer Science",
+                });
 
-            if (context.Courses.Any()) {
-                return;
+                context.Courses.Add(new Course { 
+                    Id = "2", 
+                    Code = "BHR",
+                    Description = "Bachelor of Science in Hospitality and Restaurant Management",
+                });
             }
 
-            context.Courses.Add(new Course { 
-                Id = "1", 
-                Code = "COMIT01",
-                Name = "Introduction to Information Technology",
-                Description = "An introductory course on Information Technology covering basic concepts and applications.",
-                Year = 2006,
-                Semester = 1
-            });
+            if (!context.Subjects.Any()) {
+                context.Subjects.Add(new Subject { 
+                    Id = "1",
+                    Code = "COMIT01",
+                    Name = "Programming Language I",
+                    Year = 2006,
+                    Semester = 1
+                });
+            }
 
-            context.Courses.Add(new Course { 
-                Id = "2", 
-                Code = "COMIT02",
-                Name = "Programming Language I",
-                Year = 2006,
-                Semester = 1
-            });
+            
 
             context.SaveChanges();
         }

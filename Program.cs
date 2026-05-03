@@ -54,10 +54,12 @@ builder.Services.AddDbContext<UniversityDbContext>(options =>
 // Register Repositories
 builder.Services.AddScoped<ICourseRepository, CourseDbContextRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentDbContextRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectDbContextRepository>();
 
 // Register Services
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<StudentService>();
+builder.Services.AddScoped<SubjectService>();
 
 builder.Services.AddControllers();
 
