@@ -1,3 +1,4 @@
+using DotNetEnv;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Infrastructure.ExternalServices;
@@ -8,8 +9,14 @@ using MyUniversityAPIGateway.Application;
 using MyUniversityAPIGateway.Data.Mock;
 using MyUniversityAPIGateway.Domain.Repository;
 
+// Load the .env file
+Env.Load();
 var builder = WebApplication.CreateBuilder(args);
-var env = builder.Environment;
+
+// Ensure .env is picked up by the builder
+builder.Configuration.AddEnvironmentVariables();
+
+var isProduction = Environment.GetEnvironmentVariable("ENVIRONMENT") == "Production";
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -25,9 +32,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options => {
+    string? jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? "";
+    string? jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "";
+    string? jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "";
     
     // Only enable this debugger on non-production setup
-    if (env.IsProduction() == false) {
+    if (!isProduction) {
         options.Events = new JwtBearerEvents {
             OnAuthenticationFailed = context =>
             {
@@ -42,9 +52,9 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtAudience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
 
@@ -66,8 +76,7 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 // Seed the data only in Development
-if (app.Environment.IsDevelopment())
-{
+if (!isProduction) {
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<UniversityDbContext>();
@@ -76,7 +85,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
+if (!isProduction) {
     app.MapOpenApi("/openapi/v1.json");
 }
 
