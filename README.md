@@ -1,6 +1,6 @@
 # My University API Gateway
 
-My practice project in developing a simple backend service using C# by applying Hexagonal or Clean Architecture, Dependency Injection / Inversion of Control and Test-Driven Development principles coming from my experience as a Java and/or TypeScript engineer
+My practice project in developing a simple backend service using C# by applying Hexagonal or Clean Architecture, Dependency Injection / Inversion of Control and Test-Driven Development principles coming from my experience in Java and/or TypeScript.
 
 ## The Setup
 
